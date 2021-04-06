@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MessageDto } from 'src/common/message.dto';
+import { MessageDto } from '../common/message.dto';
 import { productosDTO } from './dto/productos.dto';
 import { ProductosEntity } from './productos.entity';
 import { ProductosRepository } from './productos.repository';
