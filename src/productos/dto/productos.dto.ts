@@ -1,5 +1,4 @@
 export class productosDTO {
-  
   codigo: number;
 
   descripcion: string;

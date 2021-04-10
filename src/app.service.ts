@@ -5,5 +5,4 @@ import { ProductosEntity } from './productos/productos.entity';
 import { ProductosRepository } from './productos/productos.repository';
 
 @Injectable()
-export class AppService {
-}
+export class AppService {}

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MessageDto } from '../common/message.dto';
 import { productosDTO } from './dto/productos.dto';
@@ -39,46 +43,36 @@ export class ProductosService {
   }
 
   async findById(id: number): Promise<ProductosEntity> {
-    const depto = await this._productoRepository.findOne(id);
+    const depto = await this._productoRepository.findOne({
+      where: { codigo: id },
+    });
     if (!depto) {
       throw new NotFoundException({ message: 'No existe' });
     }
     return depto;
   }
 
-  // async update(id: number, dto: productosDTO): Promise<any> {
-  //   const depto = await this.findById(id);
+  async update(id: number, dto: productosDTO): Promise<any> {
+    console.log(id);
+    const depto = await this.findById(id);
 
-  //   if (!depto) throw new BadRequestException({ message: 'NoExiste!' });
+    if (!depto) throw new BadRequestException({ message: 'NoExiste!' });
 
-  //   // const exist = await this.findByNombre(dto.nombres);
-  //   // if (exist && exist.id !== id)
-  //   //     throw new BadRequestException({ message: 'Nombre ya existe' });
+    dto.descripcion
+      ? (depto.descripcion = dto.descripcion)
+      : (depto.descripcion = depto.descripcion);
 
-  //   dto.nombre ? (depto.nombre = dto.nombre) : (depto.nombre = depto.nombre);
-  //   dto.descripcion
-  //     ? (depto.descripcion = dto.descripcion)
-  //     : (depto.descripcion = depto.descripcion);
-  //   dto.nivel ? (depto.nivel = dto.nivel) : (depto.nivel = depto.nivel);
-  //   dto.detalleAsignatura
-  //     ? (depto.detalleAsignatura = dto.detalleAsignatura)
-  //     : (depto.detalleAsignatura = depto.detalleAsignatura);
-  //   dto.rutaDocAdjuntos
-  //     ? (depto.rutaDocAdjuntos = dto.rutaDocAdjuntos)
-  //     : (depto.rutaDocAdjuntos = depto.rutaDocAdjuntos);
-  //   dto.coordinarDeptoNombre
-  //     ? (depto.coordinarDeptoNombre = dto.coordinarDeptoNombre)
-  //     : (depto.coordinarDeptoNombre = depto.coordinarDeptoNombre);
-  //   dto.coordinarDeptoId
-  //     ? (depto.coordinarDeptoId = dto.coordinarDeptoId)
-  //     : (depto.coordinarDeptoId = depto.coordinarDeptoId);
-  //   dto.encargadoCurso
-  //     ? (depto.encargadoCurso = dto.encargadoCurso)
-  //     : (depto.encargadoCurso = depto.encargadoCurso);
+    dto.cantidad
+      ? (depto.cantidad = dto.cantidad)
+      : (depto.cantidad = depto.cantidad);
 
-  //   await this._productoRepository.save(depto);
-  //   return { message: 'Actualizado' };
-  // }
+    dto.precio_ven
+      ? (depto.precio_ven = dto.precio_ven)
+      : (depto.precio_ven = depto.precio_ven);
+
+    await this._productoRepository.save(depto);
+    return { message: 'Actualizado' };
+  }
 
   async delete(id: number): Promise<any> {
     const depto = await this.findById(id);
@@ -93,23 +87,4 @@ export class ProductosService {
 
     return producto;
   }
-
-  // async getUsers(): Promise<ProductosEntity[]> {
-  //   return await this._productoRepository.find();
-  // }
-
-  // async getUser(_id: number): Promise<User[]> {
-  //   return await this._productoRepository.find({
-  //     select: ["fullName", "birthday", "isActive"],
-  //     where: [{ "id": _id }]
-  //   });
-  // }
-
-  // async updateUser(user: User) {
-  //   this._productoRepository.save(user)
-  // }
-
-  // async deleteUser(user: User) {
-  //   this._productoRepository.delete(user);
-  // }
 }
