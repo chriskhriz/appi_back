@@ -21,10 +21,10 @@ export class ProductosService {
       codigo: dto.codigo,
     });
     if (exist) return { message: 'Existe' };
-
+    console.log(dto.codigo);
     const depto = this._productoRepository.create(dto);
     await this._productoRepository.save(depto);
-    return new MessageDto('depto creado');
+    return new MessageDto('producto creado');
   }
 
   async findByNombre(descripcion: string): Promise<ProductosEntity> {
@@ -53,7 +53,6 @@ export class ProductosService {
   }
 
   async update(id: number, dto: productosDTO): Promise<any> {
-    console.log(id);
     const depto = await this.findById(id);
 
     if (!depto) throw new BadRequestException({ message: 'NoExiste!' });
@@ -81,6 +80,7 @@ export class ProductosService {
   }
 
   async getByCode(id: number): Promise<ProductosEntity[]> {
+    console.log(id);
     const producto = await this._productoRepository.find({
       where: { codigo: id },
     });

@@ -2,9 +2,9 @@
   "type": "mysql",
   "host": "localhost",
   "port": 3306,
-  "username": "codebar",
-  "password": "91316184",
-  "database": "piden",
+  "username": "Remote",
+  "password": "996179422",
+  "database": "donde_leon_032022",
   "entities": [
     "dist/**/*.entity{.ts,.js}"
   ],
